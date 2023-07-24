@@ -1,1 +1,1 @@
-export { getAll, create } from "./requests";
+export { getAll, create, deleteByID } from "./requests";

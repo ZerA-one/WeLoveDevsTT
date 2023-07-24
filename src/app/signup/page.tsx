@@ -1,22 +1,11 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import signUp from "@/firebase/auth/signup";
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
 
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Alert,
-} from "reactstrap";
-import Link from "next/link";
+import { Input } from "reactstrap";
 
 const Page = () => {
   const [email, setEmail] = useState("");
@@ -43,71 +32,106 @@ const Page = () => {
   };
 
   return (
-    <Container className="text-center custom-container">
-      <Row>
-        <Col>
-          <Form className="custom-form text-white" onSubmit={onSubmit}>
-            {error && <Alert color="danger">{error}</Alert>}
-            <FormGroup row>
-             {/* Set label color to white */}
-              <Label className="text-white" for="signUpEmail" sm={4}>
-                Email
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  name="email"
-                  id="signUpEmail"
-                  placeholder="Email"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label className="text-white" for="signUpPassword" sm={4}>
-                Password
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="password"
-                  name="passwordOne"
-                  value={passwordOne}
-                  onChange={(event) => setPasswordOne(event.target.value)}
-                  id="signUpPassword"
-                  placeholder="Password"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label className="text-white" for="signUpPassword2" sm={4}>
-                Confirm Password
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="password"
-                  name="password"
-                  value={passwordTwo}
-                  onChange={(event) => setPasswordTwo(event.target.value)}
-                  id="signUpPassword2"
-                  placeholder="Password"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Col>
-                <Button className="text-white" >Sign Up</Button>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Col className="text-white">
-                Already an account? <Link className="text-white" href="/signin">Signin</Link>
-              </Col>
-            </FormGroup>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <div className="h-full justify-center items-center flex">
+      <div className="w-full max-w-md">
+        <form
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={onSubmit}
+        >
+          <div className="flex flex-col justify-between items-center pb-5">
+            <Image
+              src={"/logo.png"}
+              alt="logo"
+              width={150}
+              height={150}
+              className="rounded-full"
+            />
+            <label className="text-black font-bold text-xl">Josh</label>
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              Email
+            </label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              name="email"
+              id="loginEmail"
+              placeholder="josh@xyz@.com"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="passwordOne"
+            >
+              Password
+            </label>
+            <Input
+              type="password"
+              name="passwordOne"
+              value={passwordOne}
+              onChange={(event) => setPasswordOne(event.target.value)}
+              id="loginPassword"
+              placeholder="******************"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="passwordTwo"
+            >
+              Confirm Password
+            </label>
+            <Input
+              type="password"
+              name="passwordTwo"
+              value={passwordTwo}
+              onChange={(event) => setPasswordTwo(event.target.value)}
+              id="loginPassword"
+              placeholder="******************"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          {error && (
+            <div className="mb-6">
+              <label className="text-red-500 text-sm font-bold mb-2">
+                {error}
+              </label>
+            </div>
+          )}
+          <div className="flex items-center justify-between">
+            <button
+              disabled={
+                passwordOne === "" ||
+                email === "" ||
+                passwordTwo === "" ||
+                passwordOne !== passwordTwo
+              }
+              className="bg-[#2c3e50] hover:bg-[#bdc3c7] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Sign Up
+            </button>
+            <a
+              className="inline-block align-baseline font-bold text-sm text-[#2c3e50] hover:text-blue-800"
+              href="/signin"
+            >
+              Already have an account? Sign In
+            </a>
+          </div>
+        </form>
+        <p className="text-center text-white text-xs">
+          &copy;2023 Josh Corp. All rights reserved.
+        </p>
+      </div>
+    </div>
   );
 };
 

@@ -3,4 +3,5 @@ export interface JobModelCreate {
   description: string;
   start: string;
   skills: [];
+  company: string;
 }

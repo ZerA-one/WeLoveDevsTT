@@ -1,4 +1,5 @@
 import "./globals.css";
+import "bootstrap/dist/css/bootstrap.css";
 import { Inter } from "next/font/google";
 import { AuthContextProvider } from "@/context/AuthContext";
 
@@ -11,10 +12,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
       <head />
       <body className={inter.className}>
         <AuthContextProvider>{children}</AuthContextProvider>

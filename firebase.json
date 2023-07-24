@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "site": "josh-toto",
+    "public": "out",
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html",
+        "dynamicLinks": true
+      }
+    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}
