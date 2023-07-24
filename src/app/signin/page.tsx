@@ -2,29 +2,23 @@
 import React from "react";
 import signIn from "@/firebase/auth/signin";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useState } from "react";
-import Link from "next/link";
 
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Alert,
-} from "reactstrap";
+import { Input } from "reactstrap";
 
-export default function Page() {
+export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    setError(null);
+    event.preventDefault();
+
+    if (password === "" || email === "") {
+      return;
+    }
 
     signIn(email, password)
       .then((authUser) => {
@@ -32,64 +26,81 @@ export default function Page() {
       })
       .catch((error) => {
         setError(error.message);
+        console.log(error);
       });
-    event.preventDefault();
   };
 
   return (
-    <Container className="text-center" style={{ padding: "40px 0px" }}>
-      <Row>
-        <Col>
-          <h2>Login</h2>
-        </Col>
-      </Row>
-      <Row style={{ maxWidth: "400px", margin: "auto" }}>
-        <Col>
-          <Form onSubmit={onSubmit}>
-            {error && <Alert color="danger">{error}</Alert>}
-            <FormGroup row>
-              <Label className="text-white" for="loginEmail" sm={4}>
-                Email
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  name="email"
-                  id="loginEmail"
-                  placeholder="Email"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label className="text-white" for="loginPassword" sm={4}>
-                Password
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  id="loginPassword"
-                  placeholder="Password"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Col>
-                <Button className="text-white">Login</Button>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Col className="text-white">
-                No account? <Link className="text-white" href="/signup">Create one</Link>
-              </Col>
-            </FormGroup>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <div className="h-full justify-center items-center flex">
+      <div className="w-full max-w-md">
+        <form
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={onSubmit}
+        >
+          <div className="flex flex-col justify-between items-center pb-5">
+            <Image
+              src={"/logo.png"}
+              alt="logo"
+              width={150}
+              height={150}
+              className="rounded-full"
+            />
+            <label className="text-black font-bold text-xl">Josh</label>
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              Email
+            </label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              name="email"
+              id="loginEmail"
+              placeholder="josh@xyz@.com"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <Input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              id="loginPassword"
+              placeholder="******************"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              disabled={password === "" || email === ""}
+              className="bg-[#2c3e50] hover:bg-[#bdc3c7] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Sign In
+            </button>
+            <a
+              className="inline-block align-baseline font-bold text-sm text-[#2c3e50] hover:text-blue-800"
+              href="/signup"
+            >
+              Create account
+            </a>
+          </div>
+        </form>
+        <p className="text-center text-white text-xs">
+          &copy;2023 Josh Corp. All rights reserved.
+        </p>
+      </div>
+    </div>
   );
 }

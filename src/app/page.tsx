@@ -8,7 +8,7 @@ import { JobModel } from "../firebase/firestore/jobs/model";
 import AddJob from "@/components/AddJob";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import JobInformationModal from "@/components/JobInformationModal";
 
 export default function Home() {
   const { user, signout } = useAuthContext();
@@ -19,7 +19,6 @@ export default function Home() {
 
   const getAllJobs = async () => {
     const res = await Job.getAll();
-    console.log("res", res);
     const data = res?.map((doc) => {
       return { ...doc, id: doc.id } as JobModel;
     });
@@ -29,11 +28,10 @@ export default function Home() {
 
   const onDelJob = async (id: string) => {
     const res = await Job.deleteByID(id);
-    console.log("res", res);
     if (res) {
-
       const newJobs = jobs.filter((job) => job.id !== id);
       setJobs(newJobs);
+      setShowModal(false);
     }
   };
 
@@ -47,63 +45,14 @@ export default function Home() {
 
   return (
     <main>
-      <Modal
-        size="xl"
+      <JobInformationModal
         isOpen={showModal}
         toggle={() => setShowModal(!showModal)}
-      >
-        <ModalHeader className="items-center justify-center w-full">
-          <div className="items-center justify-center">
-            <label className="text-black text-center font-bold text-xl">
-              {selectedJob?.title}
-            </label>
-            <label className="text-gray-500 text-sm ml-5">
-              {selectedJob?.company}
-            </label>
-          </div>
-        </ModalHeader>
-        <ModalBody>
-          <div className="flex flex-col items-center justify-center">
-            <label className="text-gray-400 text-md">
-              {selectedJob?.start}
-            </label>
-            <div className="flex flex-wrap items-center justify-center mt-3">
-              {selectedJob?.skills?.map((skill) => (
-                <label
-                  key={`${skill}.${selectedJob.id}`}
-                  className="text-gray-400 text-sm mr-4 bg-gray-200 rounded-lg border-2 border-gray-300 px-1"
-                >
-                  {skill}
-                </label>
-              ))}
-            </div>
-            <label className="text-gray-600 text-sm mt-4">
-              {selectedJob?.description}
-            </label>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <button
-            className="bg-red-500 text-white px-5 py-2 rounded-xl hover:bg-[#bdc3c7]"
-            onClick={(e) => {
-              e.preventDefault();
-              onDelJob(selectedJob?.id as string);
-              setShowModal(false);
-            }}
-          >
-            Delete
-          </button>
-          <button
-            className="bg-[#2c3e50] text-white px-5 py-2 rounded-xl hover:bg-[#bdc3c7]"
-            onClick={() => setShowModal(false)}
-          >
-            Close
-          </button>
-        </ModalFooter>
-      </Modal>
-
+        onClose={() => setShowModal(false)}
+        onDelete={onDelJob}
+        job={selectedJob}
+      />
       <Header onLogout={signout} user={user} />
-
       <div className="pt-4">
         <AddJob
           onAddJobSuccess={(job) => {
@@ -114,7 +63,7 @@ export default function Home() {
           We found <b className="text-[#bdc3c7]">{jobs.length}</b> jobs for you
           !
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-[94%] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-[94%] mx-auto pb-8">
           {jobs.map((job) => (
             <JobCard
               job={job}
@@ -127,6 +76,20 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <footer className="flex flex-col items-center justify-center w-full h-24 bg-gray-700">
+        <label className="text-white text-sm">
+          Made with ❤️ by{" "}
+          <a
+            href="https://www.linkedin.com/in/luan-sautron/"
+            className="text-blue-400"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Luan
+          </a>
+        </label>
+
+      </footer>
     </main>
   );
 }

@@ -113,17 +113,6 @@ const AddJob = ({ onAddJobSuccess }: AddJobProps) => {
       company: formData.company,
     }).then((res) => {
       const job = res.result as unknown as JobModel;
-      setFormData({
-        title: "",
-        description: "",
-        start: `${year}-${month < 10 ? "0" + month : month}-${
-          day < 10 ? "0" + day : day
-        }`,
-        skillsSelected: undefined,
-        skills: [],
-        companySelected: undefined,
-        company: "",
-      });
       onAddJobSuccess(job);
     });
   };
