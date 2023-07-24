@@ -25,7 +25,7 @@ async function getAllData(collectionName: string) {
   if (docSnap) {
     return docSnap.docs.map((doc) => doc.data());
   }
-  return null;
+  return [];
 }
 
 export { getDataByID, getAllData };

@@ -31,7 +31,6 @@ const Page = () => {
     if (passwordOne === passwordTwo) {
       signUp(email, passwordOne)
         .then((authUser) => {
-          console.log("Success. The user is created in Firebase");
           router.push("/");
         })
         .catch((error) => {

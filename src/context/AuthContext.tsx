@@ -28,7 +28,6 @@ export const AuthContextProvider = ({
 
   const clear = () => {
     setUser(null);
-    setLoading(true);
   };
 
   const signout = async () => {
