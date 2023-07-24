@@ -6,4 +6,5 @@ export interface JobModel {
   description: string;
   start: string;
   skills: [];
+  company: string;
 }
