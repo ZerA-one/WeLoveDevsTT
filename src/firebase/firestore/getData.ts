@@ -1,4 +1,11 @@
-import { getFirestore, doc, getDoc, collection, getDocs, query } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+} from "firebase/firestore";
 import firebase_app from "@/firebase/config";
 
 const db = getFirestore(firebase_app);
@@ -23,7 +30,9 @@ async function getAllData(collectionName: string) {
   const docSnap = await getDocs(q);
 
   if (docSnap) {
-    return docSnap.docs.map((doc) => doc.data());
+    return docSnap.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
   }
   return [];
 }
